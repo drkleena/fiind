@@ -15,10 +15,10 @@
 body{
 background: linear-gradient(170deg, white,#F57375);
 background-size: 400% 400%;
--webkit-animation: AnimationName 5s ease infinite;
--moz-animation: AnimationName 5s ease infinite;
--o-animation: AnimationName 5s ease infinite;
-animation: AnimationName 5s ease infinite;
+-webkit-animation: AnimationName 2s ease infinite;
+-moz-animation: AnimationName 2s ease infinite;
+-o-animation: AnimationName 2s ease infinite;
+animation: AnimationName 2s ease infinite;
 
 }
 
@@ -565,7 +565,7 @@ animation: AnimationName 5s ease infinite;
 
 	}
 
-	@media screen and (max-width: 1280px) {
+	@media screen and (max-width: 1800px) {
 
 		.row > * {
 			padding: 0 0 0 1.5em;
@@ -780,7 +780,7 @@ animation: AnimationName 5s ease infinite;
 
 	}
 
-	@media screen and (max-width: 980px) {
+	@media screen and (max-width: 1800px) {
 
 		.row > * {
 			padding: 0 0 0 1.5em;
@@ -2401,7 +2401,7 @@ animation: AnimationName 5s ease infinite;
 
 		}
 
-		@media screen and (max-width: 1280px) {
+		@media screen and (max-width: 1800px) {
 
 			.icon.major:before {
 				font-size: 4.75rem;
@@ -2886,7 +2886,7 @@ animation: AnimationName 5s ease infinite;
 				margin-bottom: 0;
 			}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1800px) {
 
 			.features li {
 				width: calc(50% - 2em);
@@ -2989,7 +2989,7 @@ animation: AnimationName 5s ease infinite;
 					line-height: 1.3;
 				}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1800px) {
 
 			.statistics li strong, .statistics li b {
 				font-size: 1.5em;
@@ -3069,7 +3069,7 @@ animation: AnimationName 5s ease infinite;
 				width: 5em;
 			}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1800px) {
 
 			.spotlight {
 				-moz-flex-direction: column-reverse;
@@ -3174,7 +3174,7 @@ animation: AnimationName 5s ease infinite;
 					max-width: 75%;
 				}
 
-		@media screen and (max-width: 1280px) {
+		@media screen and (max-width: 1800px) {
 
 			#header {
 				padding: 4em 4em 0.1em 4em ;
@@ -3186,7 +3186,7 @@ animation: AnimationName 5s ease infinite;
 
 		}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1800px) {
 
 			#header {
 				padding: 4em 3em 0.1em 3em ;
@@ -3661,7 +3661,7 @@ animation: AnimationName 5s ease infinite;
 
 		}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1800px) {
 
 			#main > .main {
 				padding: 4em 3em 2em 3em ;
@@ -3750,7 +3750,7 @@ animation: AnimationName 5s ease infinite;
 			text-align: center;
 		}
 
-		@media screen and (max-width: 1280px) {
+		@media screen and (max-width: 1800px) {
 
 			#footer {
 				padding: 4em 4em 2em 4em ;
@@ -3758,7 +3758,7 @@ animation: AnimationName 5s ease infinite;
 
 		}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1800px) {
 
 			#footer {
 				padding: 4em 3em 2em 3em ;
