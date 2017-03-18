@@ -25,7 +25,6 @@
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
     <!-- <script src="assets/js/main.js"></script> -->
     <script>
-    // $(".content").append("<h1>" + method +  "</h1>");
 
     function compassHeading(alpha, beta, gamma) {
 
@@ -64,19 +63,19 @@
 
   }
 
-function updateHeading() {
-  window.addEventListener('deviceorientation', function(evt) {
+window.addEventListener("deviceorientation", handleOrientation, true);
 
-    var heading = null;
+function handleOrientation(event) {
+  var absolute = event.absolute;
+  var alpha    = event.alpha;
+  var beta     = event.beta;
+  var gamma    = event.gamma;
 
-    if(evt.absolute === true && evt.alpha !== null) {
-      heading = compassHeading(evt.alpha, evt.beta, evt.gamma);
-    }
-    console.log(heading);
-    $('.content').append("<h1>" + heading + "</h1>");
-    // Do something with 'heading'...
+  bearing = compassHeading(alpha, beta, gamma);
+  $(".content").append("<h1>" + bearing +  "</h1>");
 
-  }, false);
+  console.log(bearing);
+  // Do stuff with the new orientation data
 }
 
         var socket = io();
@@ -87,7 +86,6 @@ function updateHeading() {
         });
         // Timer for position update
         setInterval(()=>getPos(), 1000);
-        setInterval(()=>updateHeading(), 250);
         // Console logging the {lat, long, id}     -- MIGHT NEED TO ADD ROOM ID TO THIS?
         socket.on('lat long1', function(msg){
           console.log(msg);
