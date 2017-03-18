@@ -49,7 +49,7 @@
           alert('room is full, sedning to the goog');
           window.location.assign("www.google.com");
 
-          if (window.DeviceOrientationEvent) {
+  if (window.DeviceOrientationEvent) {
   // Listen for the deviceorientation event and handle the raw data
 
 
@@ -61,12 +61,13 @@
         if(event.webkitCompassHeading) {
       // Apple works only with this, alpha doesn't work
         compassdir = event.webkitCompassHeading;
+        $(".content").append("<h1>" + compassdir +  "</h1>");
         }
-        else compassdir = event.alpha;
+        else{
+            compassdir = event.alpha;
+            $(".content").append("<h1>" + compassdir +  "</h1>");
+        }
     });
-
-        console.log(compassdir);
-
 
     }
 
