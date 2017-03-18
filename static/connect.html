@@ -86,6 +86,10 @@
         socket.on('lat long1', function(msg){
           console.log(msg);
         });
+        socket.on('fuck off', function(){
+          alert('room is full, sedning to the goog');
+          window.location.assign("http://www.google.com");
+        });
       });
 
       // Gets position from browser

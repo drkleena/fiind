@@ -22,12 +22,13 @@ io.on('connection', function(socket){
   });
 
   socket.on('register', function(msg){
-    if (sessions.msg >= 2) {
-      window.location.replace("www.google.com");
-    } else if (sessions.msg) {
-      sessions.msg += 1;
+    console.log(sessions);
+    if (sessions[msg] >= 2) {
+      io.emit('fuck off');
+    } else if (sessions[msg]) {
+      sessions[msg] += 1;
     } else {
-      sessions.msg = 1;
+      sessions[msg] = 1;
     }
   	//console.log(user);
   })
