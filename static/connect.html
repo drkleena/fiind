@@ -73,7 +73,7 @@ function handleOrientation(event) {
 
   bearing = compassHeading(alpha, beta, gamma);
 
-  $("#bearing").replaceWith("<h1>" + bearing +  "</h1>");
+  $("#bearing").html("<h1>" + bearing +  "</h1>");
 
   console.log(bearing);
   // Do stuff with the new orientation data
