@@ -1,119 +1,167 @@
-<!doctype html>
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fiind</title>
-    <style>
-      .App {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background-color: lightblue;
-        flex: 1;
-        width: 100;
-        height: 100vh;
-      }
-
-      .distance {
-        display: flex;
-        flex: 1;
-        border-width: medium;
-        border-color: 'red';
-        font-size: 5vh;
-      }
-
-      .direction {
-        display: flex;
-        flex: 1;
-        align-self: center;
-        border-width: medium;
-        border-color: 'red';
-        font-size: 5vh;
-      }
-      .button{
-
-          display: flex;
-          flex: 4;
-          align-self: center;
-
-          border-radius: 50px;
-            border-width: medium;
-            border-color: black;
-            font-size: 5em;
-
-      }
-
-    </style>
-  </head>
-  <body>
-    <div class="App">
-      <div class="distance">
-        {this.state.distance}m
-      </div>
-
-      <div class="direction">
-        {this.state.direction}
-      </div>
-      <div class="direction">
-        lat: {this.state.lat}
-      </div>
-      <div class="direction">
-        long: {this.state.long}
-      </div>
-      </div>
-    </div>
 
 
 
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
+	<head>
+		<title>Fiind</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="/assets/css/main0.css"/>
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
 
-      $(function () {
-        var socket = io();
 
-        // When people connect
-        socket.on('connect', function(){
-          socket.emit('register', window.location.href);
-        });
 
-        // Timer for position update
-        setInterval(()=>getPos(), 1000);
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-        // Console logging the {lat, long, id}     -- MIGHT NEED TO ADD ROOM ID TO THIS?
-        socket.on('lat long1', function(msg){
-          console.log(msg);
-        });
-        socket.on('fuck off', function(){
-          alert('room is full, sedning to the goog');
-          window.location.assign("http://www.google.com");
-        });
-      });
+				<!-- Header -->
+					<header id="header" class="alt">
+						<i class="fa fa-search" style = "size:50px"></i>
+						<h1>F i i n d</h1>
+						<p>D i s t a n c e<p/>
+						<!-- built by <a href="https://twitter.com/ajlkn">@ajlkn</a> for <a href="https://html5up.net">HTML5 UP</a>.</p> -->
+					</header>
 
-      // Gets position from browser
-      function getPos() {
-        if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(this.setPos);
+				<!-- Nav -->
+					<!-- <nav id="nav">
+						<ul>
 
-        } else {
-            console.log("Geolocation is not supported by this browser.");
-        }
-      }
-      function setPos(position) {
-        var socket = io();
-        let mylat = position.coords.latitude;
-        let mylong = position.coords.longitude;
-        socket.emit('lat long1', {mylat, mylong});
 
-        //console.log(mylat, mylong);
-      }
 
-    </script>
-  </body>
+							<li><a href="#cta">Github</a></li>
+						</ul>
+					</nav> -->
+
+
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Introduction -->
+							 <section id="intro" class="main">
+								<div class="spotlight">
+
+									<div class="content">
+                                            <img id = "filthy" src= "/images/Salamander_Man.png"
+                                            style ="width: 220px;height:160px;"/>
+
+									</div>
+
+								</div>
+							 </section>
+
+						<!-- First Section -->
+							<!-- <section id="first" class="main special">
+								<header class="major">
+									<h2>Magna veroeros</h2>
+								</header>
+								<ul class="features">
+									<li>
+										<span class="icon major style1 fa-code"></span>
+										<h3>Ipsum consequat</h3>
+										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
+									</li>
+									<li>
+										<span class="icon major style3 fa-copy"></span>
+										<h3>Amed sed feugiat</h3>
+										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
+									</li>
+									<li>
+										<span class="icon major style5 fa-diamond"></span>
+										<h3>Dolor nullam</h3>
+										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
+									</li>
+								</ul>
+								<footer class="major">
+									<ul class="actions">
+										<li><a href="generic.html" class="button">Learn More</a></li>
+									</ul>
+								</footer>
+							</section> -->
+
+
+					</div>
+
+				<!-- Footer -->
+					<!-- <footer id="footer">
+						<section>
+							<h2>Aliquam sed mauris</h2>
+							<p>Sed lorem ipsum dolor sit amet et nullam consequat feugiat consequat magna adipiscing tempus etiam dolore veroeros. eget dapibus mauris. Cras aliquet, nisl ut viverra sollicitudin, ligula erat egestas velit, vitae tincidunt odio.</p>
+							<ul class="actions">
+								<li><a href="generic.html" class="button">Learn More</a></li>
+							</ul>
+						</section>
+						<section>
+							<h2>Etiam feugiat</h2>
+							<dl class="alt">
+								<dt>Address</dt>
+								<dd>1234 Somewhere Road &bull; Nashville, TN 00000 &bull; USA</dd>
+								<dt>Phone</dt>
+								<dd>(000) 000-0000 x 0000</dd>
+								<dt>Email</dt>
+								<dd><a href="#">information@untitled.tld</a></dd>
+							</dl>
+							<ul class="icons">
+								<li><a href="#" class="icon fa-twitter alt"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon fa-facebook alt"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon fa-instagram alt"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon fa-github alt"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon fa-dribbble alt"><span class="label">Dribbble</span></a></li>
+							</ul>
+						</section>
+						<p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+					</footer> -->
+
+			</div>
+
+		<!-- Scripts -->
+			<script src=  "assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+            <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+			<script>
+
+		  	/**
+		   	* Returns a random number between min (inclusive) and max (exclusive)
+		   	*/
+		    	function getRandomArbitrary(min, max) {
+		        return Math.random() * (max - min) + min;
+		    }
+
+
+		    	$( "#69420" ).click(function() {
+		      	let session = Math.floor(getRandomArbitrary(1000, 9999)).toString();
+		      	let session_url = window.location + "connect/" + session;
+		      	window.open(session_url);
+		    	});
+
+				$(".img").click(function(){
+
+					$(".img").css()
+
+				});
+
+
+
+		    </script>
+
+	</body>
+
+
+
 </html>
-
-<!-- <ul id="messages"></ul>
-<form action="">
-  <input id="m" autocomplete="off" /><button>Send</button>
-</form> -->
