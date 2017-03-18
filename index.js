@@ -27,15 +27,16 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect', function(msg) {
+	console.log("SERVERdisconnect!!@!!!!");
     console.log(user_session[socket.id]);
     sessions[user_session[socket.id]] -= 1;
     delete user_session[socket.id];
-    console.log('sessions: ', sessions);
+    console.log('SERVERsessions: ', sessions);
   });
 
   socket.on('register', function(msg){
     user_session[socket.id] = msg;
-    console.log(user_session);
+    console.log("SERVER"+user_session[socket.id]);
     if (sessions[msg] >= 2) {
       if (io.sockets.connected[socket.id]) {
         io.sockets.connected[socket.id].emit('fuck off');
@@ -48,6 +49,43 @@ io.on('connection', function(socket){
     //console.log(sessions);
   })
 });
+
+
+
+var gpsHeading = require('node-gps-heading');
+
+var gps1 = {
+  lat: -31.0000000,
+  lng: 115.8480000
+}
+
+var gps2 = {
+  lat: -32.0000000,
+  lng: 115.8480000
+}
+
+gpsHeading.calculate(gps1, gps2, function(heading) {
+  console.log(heading.degree);
+  console.log(heading.radian);
+});
+
+var heading = gpsHeading.calculateSync(gps1, gps2);
+console.log(heading.degree);
+console.log(heading.radian);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 http.listen(port, function(){
   console.log('listening on *:' + port);
