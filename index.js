@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
@@ -8,9 +9,11 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/static/landing.html');
 });
 
+app.use('/', express.static('static'))
+
 app.get('/connect/:id', function(req, res){
 	res.sendFile(__dirname + '/static/connect.html');
-})
+});
 
 io.on('connection', function(socket){
   socket.on('lat long1', function(msg){
