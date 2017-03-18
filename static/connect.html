@@ -52,15 +52,19 @@
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
 
+      var user_counter = 0;
       $(function () {
         var socket = io();
 
-        var user_counter = 0;
+        
 
         // When people connect
         socket.on('connect', function(){
-          user_counter += 1;
+
+          
+
           socket.emit('register', {username: user_counter});
+          user_counter += 1;
           console.log(socket.id); // 'G5p5...'
         });
 
