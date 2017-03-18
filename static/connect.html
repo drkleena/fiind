@@ -87,7 +87,7 @@
         // Timer for position update
         setInterval(()=>getPos(), 1000);
 
-        // Console logging the {lat, long, id}
+        // Console logging the {lat, long, id}     -- MIGHT NEED TO ADD ROOM ID TO THIS?
         socket.on('lat long1', function(msg){
           console.log(msg);
         });
