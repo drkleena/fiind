@@ -76,6 +76,11 @@
         // When people connect
         socket.on('connect', function(){
           socket.emit('register', window.location.href);
+          console.log('socket:', socket.id);
+        });
+        // When people connect
+        socket.on('disconnect', function(){
+          socket.emit('disconnect', window.location.href);
         });
 
         // Timer for position update
@@ -85,8 +90,7 @@
         socket.on('lat long1', function(msg){
           console.log(msg);
         });
-        socket.on('fuck off', function(){
-          alert('room is full, sedning to the goog');
+        socket.on('fuck off', function() {
           window.location.assign("http://www.google.com");
         });
       });
