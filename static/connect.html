@@ -78,10 +78,10 @@
         // When people connect
         socket.on('connect', function(){
           socket.emit('register', {username: "buttmunch"});
-
-          //console.log(socket.id); // 'G5p5...'
-          if (user_counter >= 2) window.location.replace('https://fiind.azurewebsites.net');
           user_counter += 1;
+          //console.log(socket.id); // 'G5p5...'
+          if (user_counter > 2) window.location.replace('https://fiind.azurewebsites.net');
+          
         });
 
         // Timer for position update
