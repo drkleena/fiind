@@ -80,7 +80,7 @@
           socket.emit('register', {username: "buttmunch"});
           console.log(socket.id); // 'G5p5...'
           if (user_buffer.length >= 2) window.location.replace('https://fiind.azurewebsites.net');
-          user_buffer.append(socket.id);
+          user_buffer.push(socket.id);
         });
 
         // Timer for position update
