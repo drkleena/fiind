@@ -25,148 +25,69 @@
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
     <!-- <script src="assets/js/main.js"></script> -->
     <script>
-    (function(e) {
-        "use strict";
-        var t = function(t) {
-                return t != null || t != e
-            },
-            n = function(e, t) {
-                var n = i._callbacks[e];
-                for (var r = 0; r < n.length; r++) n[r].apply(window, t)
-            },
-            r = function(e) {
-                var t = 0;
-                for (var n = e.length - 1; n > e.length - 6; n--) t += e[n];
-                return t / 5
-            },
-            i = window.Compass = {
-                method: e,
-                watch: function(e) {
-                    var t = ++i._lastId;
-                    return i.init(function(n) {
-                        if (n == "phonegap") i._watchers[t] = i._nav.compass.watchHeading(e);
-                        else if (n == "webkitOrientation") {
-                            var r = function(t) {
-                                e(t.webkitCompassHeading)
-                            };
-                            i._win.addEventListener("deviceorientation", r), i._watchers[t] = r
-                        } else if (n == "orientationAndGPS") {
-                            var s, r = function(t) {
-                                s = -t.alpha + i._gpsDiff, s < 0 ? s += 360 : s > 360 && (s -= 360), e(s)
-                            };
-                            i._win.addEventListener("deviceorientation", r), i._watchers[t] = r
-                        }
-                    }), t
-                },
-                unwatch: function(e) {
-                    return i.init(function(t) {
-                        t == "phonegap" ? i._nav.compass.clearWatch(i._watchers[e]) : (t == "webkitOrientation" || t == "orientationAndGPS") && i._win.removeEventListener("deviceorientation", i._watchers[e]), delete i._watchers[e]
-                    }), i
-                },
-                needGPS: function(e) {
-                    return i._callbacks.needGPS.push(e), i
-                },
-                needMove: function(e) {
-                    return i._callbacks.needMove.push(e), i
-                },
-                noSupport: function(e) {
-                    return i.method === !1 ? e() : t(i.method) || i._callbacks.noSupport.push(e), i
-                },
-                init: function(e) {
-                    if (t(i.method)) {
-                        e(i.method);
-                        return
-                    }
-                    i._callbacks.init.push(e);
-                    if (i._initing) return;
-                    return i._initing = !0, i._nav.compass ? i._start("phonegap") : i._win.DeviceOrientationEvent ? (i._checking = 0, i._win.addEventListener("deviceorientation", i._checkEvent), setTimeout(function() {
-                        i._checking !== !1 && i._start(!1)
-                    }, 500)) : i._start(!1), i
-                },
-                _lastId: 0,
-                _watchers: {},
-                _win: window,
-                _nav: navigator,
-                _callbacks: {
-                    init: [],
-                    noSupport: [],
-                    needGPS: [],
-                    needMove: []
-                },
-                _initing: !1,
-                _gpsDiff: e,
-                _start: function(e) {
-                    i.method = e, i._initing = !1, n("init", [e]), i._callbacks.init = [], e === !1 && n("noSupport", []), i._callbacks.noSupport = []
-                },
-                _checking: !1,
-                _checkEvent: function(e) {
-                    i._checking += 1;
-                    var n = !1;
-                    t(e.webkitCompassHeading) ? i._start("webkitOrientation") : t(e.alpha) && i._nav.geolocation ? i._gpsHack() : i._checking > 1 ? i._start(!1) : n = !0, n || (i._checking = !1, i._win.removeEventListener("deviceorientation", i._checkEvent))
-                },
-                _gpsHack: function() {
-                    var e = !0,
-                        s = [],
-                        o = [];
-                    n("needGPS");
-                    var u = function(e) {
-                        s.push(e.alpha)
-                    };
-                    i._win.addEventListener("deviceorientation", u);
-                    var a = function(a) {
-                            var f = a.coords;
-                            if (!t(f.heading)) return;
-                            e && (e = !1, n("needMove")), f.speed > 1 ? (o.push(f.heading), o.length >= 5 && s.length >= 5 && (i._win.removeEventListener("deviceorientation", u), i._nav.geolocation.clearWatch(l), i._gpsDiff = r(o) + r(s), i._start("orientationAndGPS"))) : o = []
-                        },
-                        f = function() {
-                            i._win.removeEventListener("deviceorientation", u), i._start(!1)
-                        },
-                        l = i._nav.geolocation.watchPosition(a, f, {
-                            enableHighAccuracy: !0
-                        })
-                }
-            }
-    })();
-    </script>
-    <script>
+    // $(".content").append("<h1>" + method +  "</h1>");
 
-      $(function () {
-        // var gpsHeading = require('node-gps-heading');
-        Compass.noSupport(function (){
-            $('.compass').hide();
+    function compassHeading(alpha, beta, gamma) {
 
-        });
+    // Convert degrees to radians
+    var alphaRad = alpha * (Math.PI / 180);
+    var betaRad = beta * (Math.PI / 180);
+    var gammaRad = gamma * (Math.PI / 180);
 
-        Compass.needGPS(function () {
-            $('.go-outside-message').show();          // Step 1: we need GPS signal
-        }).needMove(function () {
-            $('.go-outside-message').hide()
-            $('.move-and-hold-ahead-message').show(); // Step 2: user must go forward
-            }).init(function () {
-                $('.move-and-hold-ahead-message').hide(); // GPS hack is enabled
-            });
-            Compass.watch(function (heading) {
-                    $('.degrees').text(heading);
-                        $('.compass').css('transform', 'rotate(' + (-heading) + 'deg)');
-                        });
+    // Calculate equation components
+    var cA = Math.cos(alphaRad);
+    var sA = Math.sin(alphaRad);
+    var cB = Math.cos(betaRad);
+    var sB = Math.sin(betaRad);
+    var cG = Math.cos(gammaRad);
+    var sG = Math.sin(gammaRad);
 
-            Compass.init(function (method) {
-              console.log('Compass heading by ' + method);
-              
-              $(".content").append("<h1>" + method +  "</h1>");
+    // Calculate A, B, C rotation components
+    var rA = - cA * sG - sA * sB * cG;
+    var rB = - sA * sG + cA * sB * cG;
+    var rC = - cB * cG;
 
-            });
+    // Calculate compass heading
+    var compassHeading = Math.atan(rA / rB);
+
+    // Convert from half unit circle to whole unit circle
+    if(rB < 0) {
+      compassHeading += Math.PI;
+    }else if(rA < 0) {
+      compassHeading += 2 * Math.PI;
+    }
+
+    // Convert radians to degrees
+    compassHeading *= 180 / Math.PI;
+
+    return compassHeading;
+
+  }
+
+function updateHeading() {
+  window.addEventListener('deviceorientation', function(evt) {
+
+    var heading = null;
+
+    if(evt.absolute === true && evt.alpha !== null) {
+      heading = compassHeading(evt.alpha, evt.beta, evt.gamma);
+    }
+    console.log(heading);
+    $('.content').append("<h1>" + heading + "</h1>");
+    // Do something with 'heading'...
+
+  }, false);
+}
 
         var socket = io();
         // When people connect
         socket.on('connect', function(){
           //console.log(window.location.href);
           socket.emit('register', window.location.href);
-
-
         });
         // Timer for position update
         setInterval(()=>getPos(), 1000);
+        setInterval(()=>updateHeading(), 250);
         // Console logging the {lat, long, id}     -- MIGHT NEED TO ADD ROOM ID TO THIS?
         socket.on('lat long1', function(msg){
           console.log(msg);
@@ -174,37 +95,7 @@
         socket.on('fuck off', function(){
           alert('room is full, sedning to the goog');
           window.location.assign("www.google.com");
-
-  // if (window.DeviceOrientationEvent) {
-  // // Listen for the deviceorientation event and handle the raw data
-  //
-  // window.addEventListener('deviceorientation', function(eventData) {
-  //   var compassdir;
-  //
-  //       if(event.webkitCompassHeading) {
-  //     // Apple works only with this, alpha doesn't work
-  //       compassdir = event.webkitCompassHeading;
-  //       $(".content").append("<h1>" + compassdir +  "</h1>");
-  //       }
-  //       else{
-  //           compassdir = event.alpha;
-  //           $(".content").append("<h1>" + compassdir +  "</h1>");
-  //       }
-  //   });
-  //
-  //   }
-
-
-
-
-
-
-
-
-
-
         });
-      });
 
       // Gets position from browser
       function getPos() {
@@ -255,16 +146,6 @@
             </header>
 
         <!-- Nav -->
-            <!-- <nav id="nav">
-                <ul>
-
-
-
-                    <li><a href="#cta">Github</a></li>
-                </ul>
-            </nav> -->
-
-
 
         <!-- Main -->
             <div id="main">
@@ -281,69 +162,7 @@
 
                         </div>
                      </section>
-
-                <!-- First Section -->
-                    <!-- <section id="first" class="main special">
-                        <header class="major">
-                            <h2>Magna veroeros</h2>
-                        </header>
-                        <ul class="features">
-                            <li>
-                                <span class="icon major style1 fa-code"></span>
-                                <h3>Ipsum consequat</h3>
-                                <p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
-                            </li>
-                            <li>
-                                <span class="icon major style3 fa-copy"></span>
-                                <h3>Amed sed feugiat</h3>
-                                <p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
-                            </li>
-                            <li>
-                                <span class="icon major style5 fa-diamond"></span>
-                                <h3>Dolor nullam</h3>
-                                <p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
-                            </li>
-                        </ul>
-                        <footer class="major">
-                            <ul class="actions">
-                                <li><a href="generic.html" class="button">Learn More</a></li>
-                            </ul>
-                        </footer>
-                    </section> -->
-
-
             </div>
-
-        <!-- Footer -->
-            <!-- <footer id="footer">
-                <section>
-                    <h2>Aliquam sed mauris</h2>
-                    <p>Sed lorem ipsum dolor sit amet et nullam consequat feugiat consequat magna adipiscing tempus etiam dolore veroeros. eget dapibus mauris. Cras aliquet, nisl ut viverra sollicitudin, ligula erat egestas velit, vitae tincidunt odio.</p>
-                    <ul class="actions">
-                        <li><a href="generic.html" class="button">Learn More</a></li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Etiam feugiat</h2>
-                    <dl class="alt">
-                        <dt>Address</dt>
-                        <dd>1234 Somewhere Road &bull; Nashville, TN 00000 &bull; USA</dd>
-                        <dt>Phone</dt>
-                        <dd>(000) 000-0000 x 0000</dd>
-                        <dt>Email</dt>
-                        <dd><a href="#">information@untitled.tld</a></dd>
-                    </dl>
-                    <ul class="icons">
-                        <li><a href="#" class="icon fa-twitter alt"><span class="label">Twitter</span></a></li>
-                        <li><a href="#" class="icon fa-facebook alt"><span class="label">Facebook</span></a></li>
-                        <li><a href="#" class="icon fa-instagram alt"><span class="label">Instagram</span></a></li>
-                        <li><a href="#" class="icon fa-github alt"><span class="label">GitHub</span></a></li>
-                        <li><a href="#" class="icon fa-dribbble alt"><span class="label">Dribbble</span></a></li>
-                    </ul>
-                </section>
-                <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-            </footer> -->
-
     </div>
 
 
