@@ -231,6 +231,22 @@
 		      }
 
 		    </script>
+			<script>
+
+		  /**
+		   * Returns a random number between min (inclusive) and max (exclusive)
+		   */
+		    function getRandomArbitrary(min, max) {
+		        return Math.random() * (max - min) + min;
+		    }
+
+
+		    $( "#target" ).click(function() {
+		      let session = Math.floor(getRandomArbitrary(1000, 9999)).toString();
+		      let session_url = window.location + "connect/" + session;
+		      window.open(session_url);
+		    });
+		    </script>
 
 	</body>
 
