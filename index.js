@@ -5,7 +5,7 @@ var port = process.env.PORT || 3000;
 var user = {};
 
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/static/index.html');
+	res.sendFile(__dirname + '/static/landing.html');
 });
 
 app.get('/connect/:id', function(req, res){
