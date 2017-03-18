@@ -31,13 +31,27 @@
         border-color: 'red';
         font-size: 5vh;
       }
+      .button{
+
+          display: flex;
+          flex: 4;
+          align-self: center;
+
+          border-radius: 50px;
+            border-width: medium;
+            border-color: black;
+            font-size: 5em;
+
+      }
+
     </style>
   </head>
   <body>
     <div class="App">
-      <div class="distance">
+      <!-- <div class="distance">
         {this.state.distance}m
       </div>
+
       <div class="direction">
         {this.state.direction}
       </div>
@@ -46,8 +60,14 @@
       </div>
       <div class="direction">
         long: {this.state.long}
+      </div> -->
+      <div class = "button">
+          Find
       </div>
     </div>
+
+
+
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
