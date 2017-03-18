@@ -59,14 +59,21 @@
 
 											 <h2>Click the button to start </h2>
 
+										</header>
 
-										</header> 
+										<header class="major2">
+
+
+
+										</header>
+
 										 <!-- <ul class="actions">
 											<li><a href="generic.html" class="button">Connect</a></li>
 										</ul> -->
 									</div>
 
 								</div>
+
 							 </section>
 
 						<!-- First Section -->
@@ -143,6 +150,10 @@
 			<script src="assets/js/main.js"></script>
             <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 		    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+
+
+
 			<script>
 
 		  	/**
@@ -154,16 +165,33 @@
 
 
 		    	$( "#69420" ).click(function() {
-		      	let session = Math.floor(getRandomArbitrary(1000, 9999)).toString();
-		      	let session_url = window.location + "connect/" + session;
-		      	window.open(session_url);
-		    	});
+		      		let session = Math.floor(getRandomArbitrary(1000, 9999)).toString();
+					console.log(session);
 
-				$(".img").click(function(){
+						$(".major2").append("<p id = \"mysession\">"+session+"</p>").hide().fadeIn(1300);
 
-					$(".img").css()
 
-				});
+
+
+					 	$(".major2").append("<p id =\"mynext\">Next</p>").hide().fadeIn(1300);
+
+
+						$("#mynext").click(function(){
+						let session_url = window.location + "connect/" + session;
+				 		window.open(session_url);
+
+					});
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
