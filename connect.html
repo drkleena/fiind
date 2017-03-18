@@ -70,14 +70,17 @@
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
 
-      var user_counter = 0;
-
       $(function () {
         var socket = io();
 
         // When people connect
         socket.on('connect', function(){
-          socket.emit('register', {window.location.href });
+          socket.emit('register', window.location.href);
+          console.log('socket:', socket.id);
+        });
+        // When people connect
+        socket.on('disconnect', function(){
+          socket.emit('disconnect', window.location.href);
         });
 
         // Timer for position update
@@ -86,6 +89,9 @@
         // Console logging the {lat, long, id}     -- MIGHT NEED TO ADD ROOM ID TO THIS?
         socket.on('lat long1', function(msg){
           console.log(msg);
+        });
+        socket.on('fuck off', function() {
+          window.location.assign("http://www.google.com");
         });
       });
 

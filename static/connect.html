@@ -75,7 +75,6 @@
 
         // When people connect
         socket.on('connect', function(){
-          //console.log(window.location.href);
           socket.emit('register', window.location.href);
         });
 
