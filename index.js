@@ -18,13 +18,13 @@ app.get('/connect/:id', function(req, res){
 io.on('connection', function(socket){
   socket.on('lat long1', function(msg){
   	msg['clientId'] = socket.id;
-  	console.log(msg);
+  	//console.log(msg);
     io.emit('lat long1', msg);
   });
 
   socket.on('register', function(msg){
   	user[msg.username] = socket.id;
-  	console.log(user);
+  	//console.log(user);
   })
 });
 
