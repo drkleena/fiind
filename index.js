@@ -17,6 +17,7 @@ app.get('/connect/:id', function(req, res){
 
 io.on('connection', function(socket){
   socket.on('lat long1', function(msg){
+    msg['user_id'] = socket.id;
     io.emit('lat long1', msg);
   });
 
@@ -24,7 +25,7 @@ io.on('connection', function(socket){
     if (sessions.msg >= 2) {
       window.location.replace("www.google.com");
     } else if (sessions.msg) {
-       sessions.msg += 1;
+      sessions.msg += 1;
     } else {
       sessions.msg = 1;
     }
