@@ -8,8 +8,10 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+  socket.on('lat long1', function(msg){
+  	msg['clientId'] = socket.id;
+  	console.log(msg);
+    io.emit('lat long1', msg);
   });
 });
 
