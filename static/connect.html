@@ -18,12 +18,20 @@
 
   <body>
 
-
+    <!-- Scripts -->
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src=  "assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="assets/js/main.js"></script>
     <script>
 
       $(function () {
+        var gpsHeading = require('node-gps-heading');
         var socket = io();
 
         // When people connect
@@ -63,6 +71,42 @@
         //console.log(mylat, mylong);
 
       }
+
+      function getHeading(gps1, gps2){
+          gpsHeading.calculate(gps1, gps2, function(heading) {
+             return (heading.degree);
+            //   console.log(heading.radian);
+
+          });
+       }
+
+
+       function getHeadingSync(gps1, gps2){
+           var heading = gpsHeading.calculateSync(gps1, gps2);
+           return (heading.degree);
+        //    console.log(heading.radian);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </script>
 
@@ -168,7 +212,7 @@
 
     </div>
 
-<!-- Scripts -->
+
 
   </body>
 
