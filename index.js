@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 var sessions = {};
 var user_session = {};
+var room_users = {};
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/static/landing.html');
@@ -17,8 +18,11 @@ app.get('/connect/:id', function(req, res){
 });
 
 io.on('connection', function(socket){
-  socket.on('lat long1', function(msg){
+
+  // recieves and sends lat and long to server
+  socket.on('lat long1', function(msg) {
     msg['user_id'] = socket.id;
+    msg['room'] = user_session[socket.id];
     io.emit('lat long1', msg);
   });
 
@@ -26,7 +30,7 @@ io.on('connection', function(socket){
     console.log(user_session[socket.id]);
     sessions[user_session[socket.id]] -= 1;
     delete user_session[socket.id];
-    console.log(sessions);
+    console.log('sessions: ', sessions);
   });
 
   socket.on('register', function(msg){
