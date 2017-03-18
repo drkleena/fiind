@@ -55,25 +55,25 @@
       $(function () {
         var socket = io();
 
+        var user_counter = 0;
+
+        // When people connect
         socket.on('connect', function(){
-          socket.emit('register', {username: "hello"});
+          user_counter += 1;
+          socket.emit('register', {username: user_counter});
           console.log(socket.id); // 'G5p5...'
         });
 
+        // Timer for position update
         setInterval(()=>getPos(), 1000);
-        $('#').submit(function(){
-          socket.emit('chat message', $('#m').val());
-          $('#m').val('');
-          return false;
-        });
+
+        // Console logging the {lat, long, id}
         socket.on('lat long1', function(msg){
-          //console.log('received');
           console.log(msg);
-          // $('#messages').append($('<li>').text(msg));
-          // window.scrollTo(0, document.body.scrollHeight);
         });
       });
 
+      // Gets position from browser
       function getPos() {
         if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(this.setPos);
@@ -82,7 +82,6 @@
             console.log("Geolocation is not supported by this browser.");
         }
       }
-
       function setPos(position) {
         var socket = io();
         let mylat = position.coords.latitude;
