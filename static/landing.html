@@ -137,50 +137,6 @@
 			<script src="assets/js/main.js"></script>
             <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 		    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-            <script>
-
-		      $(function () {
-		        var socket = io();
-
-		        socket.on('connect', function(){
-		          socket.emit('register', {username: "hello"});
-		          console.log(socket.id); // 'G5p5...'
-		        });
-
-		        setInterval(()=>getPos(), 1000);
-		        $('#').submit(function(){
-		          socket.emit('chat message', $('#m').val());
-		          $('#m').val('');
-		          return false;
-		        });
-		        socket.on('lat long1', function(msg){
-		          //console.log('received');
-		          console.log(msg);
-		          // $('#messages').append($('<li>').text(msg));
-		          // window.scrollTo(0, document.body.scrollHeight);
-		        });
-		      });
-
-		      function getPos() {
-		        if (navigator.geolocation) {
-		              navigator.geolocation.getCurrentPosition(this.setPos);
-
-		        } else {
-		            console.log("Geolocation is not supported by this browser.");
-		        }
-		      }
-
-		      function setPos(position) {
-		        var socket = io();
-		        let mylat = position.coords.latitude;
-		        let mylong = position.coords.longitude;
-		        socket.emit('lat long1', {mylat, mylong});
-
-		        console.log(mylat, mylong);
-		      }
-
-		    </script>
-
 			<script>
 
 		  	/**
