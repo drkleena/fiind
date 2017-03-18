@@ -152,6 +152,9 @@
 
             Compass.init(function (method) {
               console.log('Compass heading by ' + method);
+              
+              $(".content").append("<h1>" + method +  "</h1>");
+
             });
 
         var socket = io();
