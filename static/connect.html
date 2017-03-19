@@ -145,7 +145,7 @@ function handleOrientation(event) {
 
   bearing = compassHeading(alpha, beta, gamma);
 
-  $("#bearing").html("<h1>" + bearing +  "</h1>");
+  //$("#bearing").html("<h1>" + bearing +  "</h1>");
 
   console.log(bearing);
 
@@ -195,7 +195,7 @@ $(function () {
             data = incoming_data;
             var dist = calcDistanceMeter(data.mylat, data.mylong, data.otherlat, data.otherlong);
             $("#bearing").html("<h1>" + dist +  "</h1>");
-            
+
             console.log("data", data);
 
           }
