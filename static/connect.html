@@ -164,7 +164,7 @@ $(function () {
         });
 
         // Timer for position update
-        setInterval(()=>getPos(), 1000);
+        setInterval(()=>getPos(), 50);
 
         // Console logging the {lat, long, id}
         socket.on('coordinates', function(msg){
