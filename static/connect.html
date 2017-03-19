@@ -203,7 +203,7 @@ $(function () {
       // Gets position from browser
       function getPos() {
         if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(this.setPos, ()=>{}, {enableHighAccuracy: true, maximumAge: 1000});
+              navigator.geolocation.getCurrentPosition(this.setPos, ()=>{}, {enableHighAccuracy: true, maximumAge: 1});
 
         } else {
             console.log("Geolocation is not supported by this browser.");
