@@ -76,20 +76,19 @@ function handleOrientation(event) {
   $("#bearing").html("<h1>" + bearing +  "</h1>");
 
   console.log(bearing);
-  var c=document.getElementById("#filthy");
-  var ctx=c.getContext("2d");
 
 
 
+  var degrees = bearing - 100;
 
   // Do stuff with the new orientation data
 
-
+  $("#filthy").css({'transform':'rotate('+degrees+'deg)'});
   //calculate theta:
   //rotate
   //180 is boiler plate, just place holder
   //keep rotation going
-  rotate(10, ctx)
+
 }
 
         var socket = io();
