@@ -26,6 +26,77 @@
     <!-- <script src="assets/js/main.js"></script> -->
     <script>
 
+    function calcDistanceMeter(lat1,lon1,lat2,lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1);
+    var a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return Math.floor(d * 1000);
+    }
+
+
+
+    function calcBearing(lat1,lon1,lat2,lon2) {
+    var lat1 = deg2rad(lat1);
+    var lon1 = deg2rad(lon1);
+    var lat2 = deg2rad(lat2);
+    var lon2 = deg2rad(lon2);
+
+    var lonDiff = lon2 - lon1;
+
+    var X = Math.cos(lat2) * Math.sin(lonDiff);
+    var Y =
+        (Math.cos(lat1) * Math.sin(lat2)) - (Math.sin(lat1) * Math.cos(lat2) *
+        Math.cos(lonDiff));
+
+    var d = Math.atan2(X,Y) * (180 / Math.PI);
+
+    if (d < 0){
+        d += 360;
+    }
+    return Math.floor(d);
+    }
+
+
+
+    function relativeBearing(bearing, compass) {
+    var rel = bearing + compass;
+    if (rel > 360){
+        rel = rel - 360;
+    }
+    return Math.floor(rel);
+    }
+
+
+    function calcTime(dist) {
+    var minsec = new Array();
+    var avgSpeed = 85;    // ORIGINALLY 83.3333 - choose based on walking towards + roads not as the crow flies
+
+    minsec[0] = Math.floor(dist / avgSpeed);
+    minsec[1] = Math.round(((dist/avgSpeed) - minsec[0]) * 60);
+    return minsec;
+    }
+
+
+    function deg2rad(deg) {
+    return deg * (Math.PI/180)
+    }
+
+
+
+
+
+
+
+
+
+
     function compassHeading(alpha, beta, gamma) {
 
     // Convert degrees to radians
@@ -62,7 +133,7 @@
     return compassHeading;
 
   }
-
+var data;
 window.addEventListener("deviceorientation", handleOrientation, true);
 
 function handleOrientation(event) {
@@ -78,6 +149,10 @@ function handleOrientation(event) {
   console.log(bearing);
 
 
+  var dist = calcDistanceMeter(data.mylat, data.mylong, data.otherlat, data.otherlong);
+
+
+  $("#bearing").html("<h1>" + dist  "</h1>");
 
   var degrees = bearing;
 
@@ -118,6 +193,7 @@ $(function () {
 
           if ('otherlat' in incoming_data) {
             data = incoming_data;
+
             console.log("data", data);
 
           }
@@ -133,7 +209,7 @@ $(function () {
             console.log("Geolocation is not supported by this browser.");
         }
       }
-      
+
       function setPos(position) {
         var socket = io();
         let mylat = position.coords.latitude;
