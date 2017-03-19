@@ -56,11 +56,8 @@
 
 
 										<header class="major">
-
-											 <h2 id = "click">Click button to recieve key</h2>
-
+											 <h2 id = "click">Click button to recieve link</h2>
 										</header>
-
 										<header class="major2">
 
 
@@ -155,8 +152,9 @@
 		    	$( "#69420" ).click(function() {
 		      		let session = Math.floor(getRandomArbitrary(1000, 9999)).toString();
 					console.log(session);
+						let session_url = window.location + "connect/" + session;
 
-						$(".major2").append("<p id = \"mysession\">" + session + "</p>").hide().fadeIn(1300);
+						$(".major2").append("<p id = \"mysession\">" + session_url + "</p>").hide().fadeIn(1300);
 
 
 
@@ -165,7 +163,9 @@
 
 
 						$("#mynext").click(function(){
-						let session_url = window.location + "connect/" + session;
+
+
+
 				 		window.open(session_url);
 
 					});

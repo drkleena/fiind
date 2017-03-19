@@ -10,7 +10,7 @@
 
 /* Reset */
 
-#filthy {
+/*#filthy {
     overflow: hidden;
     transition-duration: 0.8s;
     transition-property: transform;
@@ -18,7 +18,7 @@
 #filthy:hover {
     transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
-}
+}*/
 
 body{
 background: linear-gradient(270deg, #66C9C7,#76E8EC);
@@ -3779,7 +3779,7 @@ animation: AnimationName 2s ease infinite;
 					width: 100%;
 					margin-left: 0;
 					margin-bottom: 3em;
-                    
+
 				}
 
 				#footer .copyright {
