@@ -91,22 +91,38 @@ function handleOrientation(event) {
 
 }
 
+$(function () {
         var socket = io();
+
         // When people connect
         socket.on('connect', function(){
-          //console.log(window.location.href);
           socket.emit('register', window.location.href);
         });
+
         // Timer for position update
         setInterval(()=>getPos(), 1000);
-        // Console logging the {lat, long, id}     -- MIGHT NEED TO ADD ROOM ID TO THIS?
-        socket.on('lat long1', function(msg){
+
+        // Console logging the {lat, long, id}
+        socket.on('coordinates', function(msg){
+          //socket.emit('data', msg);
+          //console.log(msg);
+        });
+        socket.on('full room', function(msg){
           console.log(msg);
+          window.location.assign("http://i.imgur.com/69lUp.gif");
         });
-        socket.on('fuck off', function(){
-          alert('room is full, sedning to the goog');
-          window.location.assign("www.google.com");
+
+        //getting data from server TO DO
+        socket.on('data', function(JSONdata) {
+          incoming_data = JSON.parse(JSONdata);
+
+          if ('otherlat' in incoming_data) {
+            data = incoming_data;
+            console.log("data", data);
+
+          }
         });
+      });
 
       // Gets position from browser
       function getPos() {
@@ -117,14 +133,18 @@ function handleOrientation(event) {
             console.log("Geolocation is not supported by this browser.");
         }
       }
+      
       function setPos(position) {
         var socket = io();
         let mylat = position.coords.latitude;
         let mylong = position.coords.longitude;
-        socket.emit('lat long1', {mylat, mylong});
 
-        //console.log(mylat, mylong);
+        var my_coordinates = {mylat, mylong}
+        //console.log(my_coordinates);
+        socket.emit('coordinates', my_coordinates);
 
+        //might not need to emit this, using this on this file
+        //socket.emit('coordinates', {mylat, mylong});
       }
 
       function getHeading(gps1, gps2){
@@ -148,11 +168,25 @@ function handleOrientation(event) {
             a.rotate(theta/180);
         }
 
-
-
-
-
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <div id="wrapper">

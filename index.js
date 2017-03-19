@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 var sessions = {};
 var user_session = {};
-var room_users = {};
+var room_users = {}; //this is the big boy data base
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/static/landing.html');
@@ -19,73 +19,121 @@ app.get('/connect/:id', function(req, res){
 
 io.on('connection', function(socket){
 
-  // recieves and sends lat and long to server
-  socket.on('lat long1', function(msg) {
-    msg['user_id'] = socket.id;
-    msg['room'] = user_session[socket.id];
-    io.emit('lat long1', msg);
+  // recieves coordinates from browser
+  socket.on('coordinates', function(msg) {
+
+  	//idk how this works but it sets coords to correct place
+  	if(room_users[user_session[socket.id]][socket.id]){
+  		room_users[user_session[socket.id]][socket.id] = msg;
+  	}
+
+    console.log(" ");
+    console.log("room_users");
+    console.log(room_users);
+
+  	var obj = room_users[user_session[socket.id]];
+
+
+
+    if (Object.keys(obj).length == 2) {
+
+      var curid = socket.id;
+      var mylat = obj[curid].mylat;
+      var mylong = obj[curid].mylong;
+      obj_vals = Object.keys(obj).map(function(key) {
+		  return obj[key];
+	  });
+      for (i=0; i<2; i++) {
+        if (obj_vals[i]['mylat'] != mylat) {
+          var otherlat = obj_vals[i]['mylat'];
+          var otherlong = obj_vals[i]['mylong'];
+
+          data = {};
+          data.mylat = mylat;
+          data.mylong = mylong;
+          data.otherlat = otherlat;
+          data.otherlong = otherlong;
+
+          if (io.sockets.connected[socket.id]) {
+            JSONdata = JSON.stringify(data);
+            console.log('JSONdata', JSONdata);
+            io.sockets.connected[socket.id].emit('data', JSONdata);
+          }
+          }
+        }
+      }
+
+    // if (io.sockets.connected[id]) {
+    //
+    //   io.sockets.connected[id].emit('full room');
+    //
+    //
+  	// io.sockets.connected[socket.id].emit('data', obj);
+
+
+  //	console.log(room_users[user_session[socket.id]][socket.id]);
+
   });
 
   socket.on('disconnect', function(msg) {
-	console.log("SERVERdisconnect!!@!!!!");
-    console.log(user_session[socket.id]);
-    sessions[user_session[socket.id]] -= 1;
-    delete user_session[socket.id];
-    console.log('SERVERsessions: ', sessions);
+  	console.log(socket.id, "disconnected from", user_session[socket.id])
+
+    //if disconnected browser was in room, removes from database
+	for(var fieldName in room_users[user_session[socket.id]]){
+	    if (socket.id == fieldName){
+	    	delete room_users[user_session[socket.id]][socket.id];
+	    }
+	}
+
+	//if room empty, deletes room
+    var c=0;
+	for(var fieldName in room_users[user_session[socket.id]]){
+	    c++;
+	}
+	if(c==0){
+		delete room_users[user_session[socket.id]];
+	}
+
+	//debugging to check who is in room, and their coords
+
   });
 
+
+  //registers room id and personal id to room_users
   socket.on('register', function(msg){
-    user_session[socket.id] = msg;
-    console.log("SERVER"+user_session[socket.id]);
-    if (sessions[msg] >= 2) {
+
+  	//for disconnect function only!
+  	user_session[socket.id] = msg;
+
+  	//creates room if no one was previously in
+  	if (!room_users[msg]) {
+  		room_users[msg] = {};
+	}
+
+	//THIS COUNTS PEOPLE IN ROOM!!!!
+	var c=0;
+		for(var fieldName in room_users[user_session[socket.id]]){
+		    c++;
+		}
+
+    //kicking additional connections
+    if (c >= 2) {
       if (io.sockets.connected[socket.id]) {
-        io.sockets.connected[socket.id].emit('fuck off');
+        io.sockets.connected[socket.id].emit('full room');
+        console.log("failed connection");
       }
-    } else if (sessions[msg]) {
-      sessions[msg] += 1;
+
+    //if space in room, adds to array of guests
     } else {
-      sessions[msg] = 1;
+      console.log(socket.id, "connected to", msg);
+  	  room_users[user_session[socket.id]][socket.id] = {};
+
     }
-    //console.log(sessions);
+    console.log(" ");
+    console.log("room_users");
+    console.log(room_users);
   })
 });
-
-
-
-var gpsHeading = require('node-gps-heading');
-
-var gps1 = {
-  lat: -31.0000000,
-  lng: 115.8480000
-}
-
-var gps2 = {
-  lat: -32.0000000,
-  lng: 115.8480000
-}
-
-gpsHeading.calculate(gps1, gps2, function(heading) {
-  console.log(heading.degree);
-  console.log(heading.radian);
-});
-
-var heading = gpsHeading.calculateSync(gps1, gps2);
-console.log(heading.degree);
-console.log(heading.radian);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 http.listen(port, function(){
   console.log('listening on *:' + port);
