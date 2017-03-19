@@ -145,19 +145,20 @@ function handleOrientation(event) {
 
   bearing = compassHeading(alpha, beta, gamma);
 
+
   //$("#bearing").html("<h1>" + bearing +  "</h1>");
 
   console.log(bearing);
 
 
-  data.bearing = bearing;
-
-
-  var degrees = bearing;
-
+  //data.bearing = bearing;
+  var bear = calcBearing(data.mylat, data.mylong, data.otherlat, data.otherlong);
+  var relBear = relativeBearing(bear, bearing);
+  $("#relBear").html("<h3>" +"relBear"+ relBear + "<h3>");
+  // $("#relBear").html("<h1>" + relBear + "<h1>");
   // Do stuff with the new orientation data
 
-  $("#filthy").css({'transform':'rotate('+degrees+'deg)'});
+  $("#filthy").css({'transform':'rotate('+relBear+'deg)'});
   //calculate theta:
   //rotate
   //180 is boiler plate, just place holder
@@ -194,7 +195,15 @@ $(function () {
           if ('otherlat' in incoming_data) {
             data = incoming_data;
             var dist = calcDistanceMeter(data.mylat, data.mylong, data.otherlat, data.otherlong);
-            $("#bearing").html("<h1>" + dist +  "</h1>");
+            var time = calcTime(dist);
+
+
+
+            $("#distance").html("<h1>" + dist + "m" + "</h1>");
+            $("#time").html("<h2>" + time[0] + "min" + time[1] + "sec" + "<h2>");
+
+
+
 
             console.log("data", data);
 
