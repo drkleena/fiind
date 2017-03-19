@@ -105,7 +105,7 @@ function handleOrientation(event) {
   var alpha    = event.alpha;
   var beta     = event.beta;
   var gamma    = event.gamma;
-  bearing = compassHeading(alpha, beta, gamma);
+  bearing = compassHeading(360 - alpha, 0, 90);
   //$("#bearing").html("<h1>" + bearing +  "</h1>");
   console.log(bearing);
   var degrees = bearing;
