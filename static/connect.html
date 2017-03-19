@@ -26,6 +26,7 @@
     <!-- <script src="assets/js/main.js"></script> -->
     <script>
 
+
     function calcDistanceMeter(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -73,7 +74,6 @@
     return Math.floor(rel);
     }
 
-
     function calcTime(dist) {
     var minsec = new Array();
     var avgSpeed = 85;    // ORIGINALLY 83.3333 - choose based on walking towards + roads not as the crow flies
@@ -82,20 +82,9 @@
     minsec[1] = Math.round(((dist/avgSpeed) - minsec[0]) * 60);
     return minsec;
     }
-
-
     function deg2rad(deg) {
     return deg * (Math.PI/180)
     }
-
-
-
-
-
-
-
-
-
 
     function compassHeading(alpha, beta, gamma) {
 
@@ -176,7 +165,7 @@ $(function () {
         });
 
         // Timer for position update
-        setInterval(()=>getPos(), 1000);
+        setInterval(()=>getPos(), 50);
 
         // Console logging the {lat, long, id}
         socket.on('coordinates', function(msg){
@@ -214,7 +203,7 @@ $(function () {
       // Gets position from browser
       function getPos() {
         if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(this.setPos);
+              navigator.geolocation.getCurrentPosition(this.setPos, ()=>{}, {enableHighAccuracy: true, maximumAge: 1000});
 
         } else {
             console.log("Geolocation is not supported by this browser.");
