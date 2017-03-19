@@ -110,13 +110,13 @@ function handleOrientation(event) {
   console.log(bearing);
 
   var degrees = bearing;
-  //var bear = calcBearing(data.mylat, data.mylong, data.otherlat, data.otherlong);
-  //var relBear = relativeBearing(bear, bearing);
+  var bear = calcBearing(data.mylat, data.mylong, data.otherlat, data.otherlong);
+  var relBear = relativeBearing(bear, bearing);
 
-
+  $("#bearing-debug").html("<p1>" + relBear +  "</p1>");
 
   // Do stuff with the new orientation data
-  $("#filthy").css({'transform':'rotate('+bearing+'deg)'});
+  $("#filthy").css({'transform':'rotate('+relBear+'deg)'});
 
   //calculate theta:
   //rotate
@@ -229,10 +229,11 @@ $(function () {
                         <div class="spotlight">
 
                             <div class="content">
-                              <h1 id='distance'>none</h1>
+                              <h1 id='distance'></h1>
                                     <img id = "filthy" src= "/images/arrow.svg"
                                     style ="width: 220px;height:160px;"/>
-
+                            <h3 id = "bearing-debug"></h3>
+                            <p3 id = "time"></p3>
                             </div>
 
                         </div>
