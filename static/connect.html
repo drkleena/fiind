@@ -111,9 +111,9 @@ function handleOrientation(event) {
   var degrees = bearing;
   var bear = calcBearing(data.mylat, data.mylong, data.otherlat, data.otherlong);
   var relBear = relativeBearing(bear, bearing);
-  var time = calcTime(dist);
+  //var time = calcTime(dist);
 
-  $("#time").html("<p3>" + time[0] + "min" + time[1] + "sec" + "</p3>");
+  //$("#time").html("<p3>" + time[0] + "min" + time[1] + "sec" + "</p3>");
 
   $("#bearing-debug").html("<p1>" + relBear +  "</p1>");
   // Do stuff with the new orientation data
