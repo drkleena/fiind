@@ -133,7 +133,8 @@
     return compassHeading;
 
   }
-var data;
+
+var data = {};
 window.addEventListener("deviceorientation", handleOrientation, true);
 
 function handleOrientation(event) {
@@ -149,10 +150,8 @@ function handleOrientation(event) {
   console.log(bearing);
 
 
-  var dist = calcDistanceMeter(data.mylat, data.mylong, data.otherlat, data.otherlong);
+  data.bearing = bearing;
 
-
-  $("#bearing").html("<h1>" + dist  "</h1>");
 
   var degrees = bearing;
 
@@ -166,6 +165,7 @@ function handleOrientation(event) {
 
 }
 
+var data = {};
 $(function () {
         var socket = io();
 
@@ -193,7 +193,9 @@ $(function () {
 
           if ('otherlat' in incoming_data) {
             data = incoming_data;
-
+            var dist = calcDistanceMeter(data.mylat, data.mylong, data.otherlat, data.otherlong);
+            $("#bearing").html("<h1>" + dist +  "</h1>");
+            
             console.log("data", data);
 
           }
