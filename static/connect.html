@@ -103,21 +103,17 @@ window.addEventListener("deviceorientation", handleOrientation, true);
 function handleOrientation(event) {
   var absolute = event.absolute;
   var alpha    = event.alpha;
-  var beta     = event.beta;
-  var gamma    = event.gamma;
+  var beta     = 0;
+  var gamma    = 0;
   bearing = compassHeading(alpha, beta, gamma);
   //$("#bearing").html("<h1>" + bearing +  "</h1>");
   console.log(bearing);
-
   var degrees = bearing;
   var bear = calcBearing(data.mylat, data.mylong, data.otherlat, data.otherlong);
   var relBear = relativeBearing(bear, bearing);
-
   $("#bearing-debug").html("<p1>" + relBear +  "</p1>");
-
   // Do stuff with the new orientation data
   $("#filthy").css({'transform':'rotate('+relBear+'deg)'});
-
   //calculate theta:
   //rotate
   //180 is boiler plate, just place holder
@@ -147,11 +143,7 @@ $(function () {
           if ('otherlat' in incoming_data) {
             data = incoming_data;
             var dist = calcDistanceMeter(data.mylat, data.mylong, data.otherlat, data.otherlong);
-
-
-
             $("#distance").html("<h1>" + dist +  "</h1>");
-
             console.log("data", data);
           }
         });

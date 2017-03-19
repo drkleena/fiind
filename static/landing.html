@@ -5,247 +5,154 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="/assets/css/main0.css"/>
-
-    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-</head>
-
-  <body>
-
-    <!-- Scripts -->
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-
-    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-    <!-- <script src="assets/js/main.js"></script> -->
-    <script>
-    function calcDistanceMeter(lat1,lon1,lat2,lon2) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2-lat1);  // deg2rad below
-    var dLon = deg2rad(lon2-lon1);
-    var a =
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var d = R * c;
-    return Math.floor(d * 1000);
-    }
-    function calcBearing(lat1,lon1,lat2,lon2) {
-    var lat1 = deg2rad(lat1);
-    var lon1 = deg2rad(lon1);
-    var lat2 = deg2rad(lat2);
-    var lon2 = deg2rad(lon2);
-    var lonDiff = lon2 - lon1;
-    var X = Math.cos(lat2) * Math.sin(lonDiff);
-    var Y =
-        (Math.cos(lat1) * Math.sin(lat2)) - (Math.sin(lat1) * Math.cos(lat2) *
-        Math.cos(lonDiff));
-    var d = Math.atan2(X,Y) * (180 / Math.PI);
-    if (d < 0){
-        d += 360;
-    }
-    return Math.floor(d);
-    }
-    function relativeBearing(bearing, compass) {
-    var rel = bearing + compass;
-    if (rel > 360){
-        rel = rel - 360;
-    }
-    return Math.floor(rel);
-    }
-    function calcTime(dist) {
-    var minsec = new Array();
-    var avgSpeed = 85;    // ORIGINALLY 83.3333 - choose based on walking towards + roads not as the crow flies
-    minsec[0] = Math.floor(dist / avgSpeed);
-    minsec[1] = Math.round(((dist/avgSpeed) - minsec[0]) * 60);
-    return minsec;
-    }
-    function deg2rad(deg) {
-    return deg * (Math.PI/180)
-    }
-    function compassHeading(alpha, beta, gamma) {
-    // Convert degrees to radians
-    var alphaRad = alpha * (Math.PI / 180);
-    var betaRad = beta * (Math.PI / 180);
-    var gammaRad = gamma * (Math.PI / 180);
-    // Calculate equation components
-    var cA = Math.cos(alphaRad);
-    var sA = Math.sin(alphaRad);
-    var cB = Math.cos(betaRad);
-    var sB = Math.sin(betaRad);
-    var cG = Math.cos(gammaRad);
-    var sG = Math.sin(gammaRad);
-    // Calculate A, B, C rotation components
-    var rA = - cA * sG - sA * sB * cG;
-    var rB = - sA * sG + cA * sB * cG;
-    var rC = - cB * cG;
-    // Calculate compass heading
-    var compassHeading = Math.atan(rA / rB);
-    // Convert from half unit circle to whole unit circle
-    if(rB < 0) {
-      compassHeading += Math.PI;
-    }else if(rA < 0) {
-      compassHeading += 2 * Math.PI;
-    }
-    // Convert radians to degrees
-    compassHeading *= 180 / Math.PI;
-    return compassHeading;
-  }
-var data = {};
-window.addEventListener("deviceorientation", handleOrientation, true);
-function handleOrientation(event) {
-  var absolute = event.absolute;
-  var alpha    = event.alpha;
-  var beta     = event.beta;
-  var gamma    = event.gamma;
-  bearing = compassHeading(alpha, beta, gamma);
-  //$("#bearing").html("<h1>" + bearing +  "</h1>");
-  console.log(bearing);
-
-  var degrees = bearing;
-  //var bear = calcBearing(data.mylat, data.mylong, data.otherlat, data.otherlong);
-  //var relBear = relativeBearing(bear, bearing);
 
 
 
-  // Do stuff with the new orientation data
-  $("#filthy").css({'transform':'rotate('+bearing+'deg)'});
-
-  //calculate theta:
-  //rotate
-  //180 is boiler plate, just place holder
-  //keep rotation going
-}
-var data = {};
-$(function () {
-        var socket = io();
-        // When people connect
-        socket.on('connect', function(){
-          socket.emit('register', window.location.href);
-        });
-        // Timer for position update
-        setInterval(()=>getPos(), 2500);
-        // Console logging the {lat, long, id}
-        socket.on('coordinates', function(msg){
-          //socket.emit('data', msg);
-          //console.log(msg);
-        });
-        socket.on('full room', function(msg){
-          console.log(msg);
-          window.location.assign("https://fiind.azurewebsites.net/");
-        });
-        //getting data from server TO DO
-        socket.on('data', function(JSONdata) {
-          incoming_data = JSON.parse(JSONdata);
-          if ('otherlat' in incoming_data) {
-            data = incoming_data;
-            var dist = calcDistanceMeter(data.mylat, data.mylong, data.otherlat, data.otherlong);
+	<head>
+		<title>Fiind</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="./assets/css/main.css"/>
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
 
 
 
-            $("#distance").html("<h1>" + dist +  "</h1>");
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-            console.log("data", data);
-          }
-        });
-      });
-      // Gets position from browser
-      function getPos() {
-        if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(this.setPos, ()=>{}, {enableHighAccuracy: true, maximumAge: 2000});
-        } else {
-            console.log("Geolocation is not supported by this browser.");
-        }
-      }
-      function setPos(position) {
-        var socket = io();
-        let mylat = position.coords.latitude;
-        let mylong = position.coords.longitude;
-        var my_coordinates = {mylat, mylong}
-        //console.log(my_coordinates);
-        socket.emit('coordinates', my_coordinates);
-        //might not need to emit this, using this on this file
-        //socket.emit('coordinates', {mylat, mylong});
-      }
-      function getHeading(gps1, gps2){
-          gpsHeading.calculate(gps1, gps2, function(heading) {
-             return (heading.degree);
-            //   console.log(heading.radian);
-          });
-       }
-       function getHeadingSync(gps1, gps2){
-           var heading = gpsHeading.calculateSync(gps1, gps2);
-           return (heading.degree);
-        //    console.log(heading.radian);
-        }
-        function rotate(theta, a){
-            a.rotate(theta/180);
-        }
-    </script>
+				<!-- Header -->
+					<header id="header" class="alt">
+						<i class="fa fa-search" style = "size:50px"></i>
+						<h1>F i i n d</h1>
+						<!-- <p>Just another free, fully responsive site template<br /> -->
+						<!-- built by <a href="https://twitter.com/ajlkn">@ajlkn</a> for <a href="https://html5up.net">HTML5 UP</a>.</p> -->
+					</header>
+
+				<!-- Nav -->
+					<!-- <nav id="nav">
+						<ul>
+							<li><a href="#cta">Github</a></li>
+						</ul>
+					</nav> -->
+
+
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Introduction -->
+							 <section id="intro" class="main">
+								<div class="spotlight">
+									<span class="image" id = "69420"><img src="images/pic01.png" alt="" /></span>
+									<div class="content">
+
+
+
+										<header class="major">
+											 <h2 id = "click">Click button to recieve link</h2>
+										</header>
+										<header class="major2">
+
+
+
+										</header>
+
+										 <!-- <ul class="actions">
+											<li><a href="generic.html" class="button">Connect</a></li>
+										</ul> -->
+									</div>
+
+								</div>
+
+							 </section>
+
+						<!-- First Section -->
+							<!-- <section id="first" class="main special">
+								<header class="major">
+									<h2>Magna veroeros</h2>
+								</header>
+								<ul class="features">
+									<li>
+										<span class="icon major style1 fa-code"></span>
+										<h3>Ipsum consequat</h3>
+										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
+									</li>
+									<li>
+										<span class="icon major style3 fa-copy"></span>
+										<h3>Amed sed feugiat</h3>
+										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
+									</li>
+									<li>
+										<span class="icon major style5 fa-diamond"></span>
+										<h3>Dolor nullam</h3>
+										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
+									</li>
+								</ul>
+								<footer class="major">
+									<ul class="actions">
+										<li><a href="generic.html" class="button">Learn More</a></li>
+									</ul>
+								</footer>
+							</section> -->
+
+
+					</div>
+
+
+					 <footer id="footer">
+						<section>
+							<h1>Lost?</h1>
+							<h3>Meeting up with someone can be tough in unfamiliar places, this way you'll be lead striaght to the them, just follow the arrow!</h3>
+							<!-- <ul class="actions">
+								<li><a href="generic.html" class="button">Learn More</a></li>
+							</ul> -->
+						</section>
+						<section>
+
+							<ul class="icons">
+								<li><a href="https://www.github.com/minishcap/fiind" class="icon fa-github alt"><span class="label">GitHub</span></a></li>
+							</ul>
+						</section>
+
+
+
+			</div>
+
+		<!-- Scripts -->
+			<script src=  "assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+            <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div id="wrapper">
-
-        <!-- Header -->
-            <header id="header" class="alt">
-                <i class="fa fa-search" style = "size:50px"></i>
-                <h1>F i i n d</h1>
-                <p>D i s t a n c e<p/>
-                <!-- built by <a href="https://twitter.com/ajlkn">@ajlkn</a> for <a href="https://html5up.net">HTML5 UP</a>.</p> -->
-            </header>
-
-        <!-- Nav -->
-
-        <!-- Main -->
-            <div id="main">
-
-                <!-- Introduction -->
-                     <section id="intro" class="main">
-                        <div class="spotlight">
-
-                            <div class="content">
-                              <h1 id='distance'>none</h1>
-                                    <img id = "filthy" src= "/images/arrow.svg"
-                                    style ="width: 220px;height:160px;"/>
-
-                            </div>
-
-                        </div>
-                     </section>
-            </div>
-            <footer id="footer">
-              kjasdf
-            </footer>
-    </div>
-
-
-
-  </body>
-
-
+			<script>
+		  	/**
+		   	* Returns a random number between min (inclusive) and max (exclusive)
+		   	*/
+		    	function getRandomArbitrary(min, max) {
+		        return Math.random() * (max - min) + min;
+		    }
+		    	$( "#69420" ).click(function() {
+		      		let session = Math.floor(getRandomArbitrary(1000, 9999)).toString();
+					console.log(session);
+						let session_url = window.location + "connect/" + session;
+						$(".major2").append("<p id = \"mysession\">" + session_url + "</p>").hide().fadeIn(1300);
+					 	$("#click").replaceWith("<h2 id =\"mynext\">Start</h2>").hide().fadeIn(2000);
+						$("#mynext").click(function(){
+				 		window.open(session_url);
+					});
+});
+		    </script>
+	</body>
 </html>
