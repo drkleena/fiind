@@ -110,13 +110,13 @@ function handleOrientation(event) {
   console.log(bearing);
 
   var degrees = bearing;
-  var bear = calcBearing(data.mylat, data.mylong, data.otherlat, data.otherlong);
-  var relBear = relativeBearing(bear, bearing);
+  //var bear = calcBearing(data.mylat, data.mylong, data.otherlat, data.otherlong);
+  //var relBear = relativeBearing(bear, bearing);
 
 
 
   // Do stuff with the new orientation data
-  $("#filthy").css({'transform':'rotate('+relBear+'deg)'});
+  $("#filthy").css({'transform':'rotate('+bearing+'deg)'});
 
   //calculate theta:
   //rotate
