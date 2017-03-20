@@ -2420,7 +2420,12 @@ animation: AnimationName 2s ease infinite;
 				.icon.major:before {
 					font-size: 3.5rem;
 				}
+            .major2 a {
 
+                font-size: 18px;
+
+
+            }
 		}
 
 	.icon.major {
