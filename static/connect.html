@@ -25,6 +25,10 @@
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
     <!-- <script src="assets/js/main.js"></script> -->
     <script>
+
+
+
+
     function calcDistanceMeter(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -35,8 +39,17 @@
       Math.sin(dLon/2) * Math.sin(dLon/2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
+
+
+
+
     return Math.floor(d * 1000);
+
+
+
+
     }
+
     function calcBearing(lat1,lon1,lat2,lon2) {
     var lat1 = deg2rad(lat1);
     var lon1 = deg2rad(lon1);
@@ -99,6 +112,9 @@
     return compassHeading;
   }
 var data = {};
+
+
+
 window.addEventListener("deviceorientation", handleOrientation, true);
 function handleOrientation(event) {
   var absolute = event.absolute;
@@ -113,9 +129,12 @@ function handleOrientation(event) {
   var relBear = relativeBearing(bear, bearing);
   //var time = calcTime(dist);
 
+
+
+
   //$("#time").html("<p3>" + time[0] + "min" + time[1] + "sec" + "</p3>");
 
-  $("#bearing-debug").html("<p1>" + relBear +  "</p1>");
+  $("#bearing-debug").html("<p1>" + relBear + " degrees" +  "</p1>");
   // Do stuff with the new orientation data
   $("#filthy").css({'transform':'rotate('+relBear+'deg)'});
   //calculate theta:
@@ -147,7 +166,17 @@ $(function () {
           if ('otherlat' in incoming_data) {
             data = incoming_data;
             var dist = calcDistanceMeter(data.mylat, data.mylong, data.otherlat, data.otherlong);
-            $("#distance").html("<h1>" + dist +  "</h1>");
+            if(dist>1){
+                $("#distance").html("<h1>" + dist + " meters" +  "</h1>");
+            }
+            else if(dist < 20){
+                $("#distance").html("<h1>" + dist + " meters" +  "</h1>");
+                $("body").css({"background": "linear-gradient(180deg, #66C9C7,red)"});
+            }
+
+            else{
+                $("#distance").html("<h1>" + dist + " meter" +  "</h1>");
+            }
             console.log("data", data);
           }
         });
@@ -187,31 +216,13 @@ $(function () {
     </script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div id="wrapper">
 
         <!-- Header -->
             <header id="header" class="alt">
                 <i class="fa fa-search" style = "size:50px"></i>
                 <h1>F i i n d</h1>
-                <p>D i s t a n c e<p/>
+                <!-- <p>D i s t a n c e<p/> -->
                 <!-- built by <a href="https://twitter.com/ajlkn">@ajlkn</a> for <a href="https://html5up.net">HTML5 UP</a>.</p> -->
             </header>
 
@@ -225,10 +236,16 @@ $(function () {
                         <div class="spotlight">
 
                             <div class="content">
-                              <h1 id='distance'>Fetching Distance...</h1>
-                                    <img id = "filthy" src= "/images/arrow.svg"
+                              <h1 id='distance'> Fetching Distance <span class = "loading">.</span><span class = "loading".</span><span class = "loading">.</span></h1>
+
+
+
+
+
+
+                                    <img id = "filthy" src= "/images/Salamander_Man.png"
                                     style ="width: 220px;height:160px;"/>
-                            <h3 id = "bearing-debug"></h3>
+                            <h3 id = "bearing-debug"style = "margin-top:3em"></h3>
                             <p3 id = "time"></p3>
                             </div>
 
