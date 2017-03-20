@@ -131,7 +131,7 @@ io.on('connection', function(socket){
     }
     console.log(" ");
     console.log("room_users");
-    console.log(room_users);
+    console.log("FUCK",room_users);
   })
 });
 
