@@ -71,7 +71,8 @@ io.on('connection', function(socket){
   	// io.sockets.connected[socket.id].emit('data', obj);
 
 
-  //	console.log(room_users[user_session[socket.id]][socket.id]);
+  //
+  (room_users[user_session[socket.id]][socket.id]);
 
   });
 
@@ -88,6 +89,7 @@ io.on('connection', function(socket){
 	//if room empty, deletes room
     var c=0;
 	for(var fieldName in room_users[user_session[socket.id]]){
+
 	    c++;
 	}
 	if(c==0){
@@ -122,9 +124,9 @@ io.on('connection', function(socket){
         io.sockets.connected[socket.id].emit('full room');
         console.log("failed connection");
       }
-
+   }
     //if space in room, adds to array of guests
-    } else {
+     else {
       console.log(socket.id, "connected to", msg);
   	  room_users[user_session[socket.id]][socket.id] = {};
 
