@@ -3,7 +3,6 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
-var sessions = {};
 var user_session = {};
 var room_users = {}; //this is the big boy data base
 
@@ -32,8 +31,6 @@ io.on('connection', function(socket){
     console.log(room_users);
 
   	var obj = room_users[user_session[socket.id]];
-
-
 
     if (Object.keys(obj).length == 2) {
 
@@ -65,23 +62,13 @@ io.on('connection', function(socket){
         }
       }
 
-    // if (io.sockets.connected[id]) {
-    //
-    //   io.sockets.connected[id].emit('full room');
-    //
-    //
-  	// io.sockets.connected[socket.id].emit('data', obj);
-
-
-  
-  //(room_users[user_session[socket.id]][socket.id]);
 
   });
 
   socket.on('disconnect', function(msg) {
   	console.log(socket.id, "disconnected from", user_session[socket.id])
 
-    //if disconnected browser was in room, removes from database
+  //if disconnected browser was in room, removes from database
 	for(var fieldName in room_users[user_session[socket.id]]){
 	    if (socket.id == fieldName){
 	    	delete room_users[user_session[socket.id]][socket.id];
@@ -89,16 +76,13 @@ io.on('connection', function(socket){
 	}
 
 	//if room empty, deletes room
-    var c=0;
+  var c=0;
 	for(var fieldName in room_users[user_session[socket.id]]){
-
 	    c++;
 	}
 	if(c==0){
 		delete room_users[user_session[socket.id]];
 	}
-
-	//debugging to check who is in room, and their coords
 
   });
 
