@@ -53,6 +53,8 @@ io.on('connection', function(socket){
           data.mylong = mylong;
           data.otherlat = otherlat;
           data.otherlong = otherlong;
+          /*THIS IS WHERE WE SHOULD BE PREPROCESSING DISTANCE */
+          /*NEED TO SEND BEARING FROM BROSWER TO SERVER SO CAN DO COMPASS SERVER SIDE*/
 
           if (io.sockets.connected[socket.id]) {
             JSONdata = JSON.stringify(data);
@@ -71,8 +73,8 @@ io.on('connection', function(socket){
   	// io.sockets.connected[socket.id].emit('data', obj);
 
 
-  //
-  (room_users[user_session[socket.id]][socket.id]);
+  
+  //(room_users[user_session[socket.id]][socket.id]);
 
   });
 
