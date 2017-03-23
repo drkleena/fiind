@@ -137,13 +137,6 @@ $(function () {
   });
 });
 // Gets position from browser
-function getPos() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(this.setPos, ()=>{}, {enableHighAccuracy: true, maximumAge: 2000});
-  } else {
-    console.log("Geolocation is not supported by this browser.");
-  }
-}
 function setPos(position) {
   console.log('getpos');
   var socket = io();
@@ -154,6 +147,13 @@ function setPos(position) {
   socket.emit('coordinates', my_coordinates);
   //might not need to emit this, using this on this file
   //socket.emit('coordinates', {mylat, mylong});
+}
+function getPos() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(this.setPos, (err)=>{console.warn(`ERROR(${err.code}): ${err.message}`)}, {enableHighAccuracy: true, maximumAge: 2000});
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
 }
 function getHeading(gps1, gps2){
   gpsHeading.calculate(gps1, gps2, function(heading) {
