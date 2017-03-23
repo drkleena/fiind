@@ -7,13 +7,13 @@ var user_session = {};
 var room_users = {}; //this is the big boy data base
 
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/static/landing.html');
+  res.sendFile(__dirname + '/static/landing.html');
 });
 
 app.use('/', express.static('static'))
 
 app.get('/connect/:id', function(req, res){
-	res.sendFile(__dirname + '/static/connect.html');
+  res.sendFile(__dirname + '/static/connect.html');
 });
 
 io.on('connection', function(socket){
@@ -21,16 +21,16 @@ io.on('connection', function(socket){
   // recieves coordinates from browser
   socket.on('coordinates', function(msg) {
 
-  	//idk how this works but it sets coords to correct place
-  	if(room_users[user_session[socket.id]][socket.id]){
-  		room_users[user_session[socket.id]][socket.id] = msg;
-  	}
+    //idk how this works but it sets coords to correct place
+    if(room_users[user_session[socket.id]][socket.id]){
+      room_users[user_session[socket.id]][socket.id] = msg;
+    }
 
     console.log(" ");
     console.log("room_users");
     console.log(room_users);
 
-  	var obj = room_users[user_session[socket.id]];
+    var obj = room_users[user_session[socket.id]];
 
     if (Object.keys(obj).length == 2) {
 
@@ -38,8 +38,8 @@ io.on('connection', function(socket){
       var mylat = obj[curid].mylat;
       var mylong = obj[curid].mylong;
       obj_vals = Object.keys(obj).map(function(key) {
-		  return obj[key];
-	  });
+        return obj[key];
+      });
       for (i=0; i<2; i++) {
         if (obj_vals[i]['mylat'] != mylat) {
           var otherlat = obj_vals[i]['mylat'];
@@ -58,31 +58,31 @@ io.on('connection', function(socket){
             console.log('JSONdata', JSONdata);
             io.sockets.connected[socket.id].emit('data', JSONdata);
           }
-          }
         }
       }
+    }
 
 
   });
 
   socket.on('disconnect', function(msg) {
-  	console.log(socket.id, "disconnected from", user_session[socket.id])
+    console.log(socket.id, "disconnected from", user_session[socket.id])
 
-  //if disconnected browser was in room, removes from database
-	for(var fieldName in room_users[user_session[socket.id]]){
-	    if (socket.id == fieldName){
-	    	delete room_users[user_session[socket.id]][socket.id];
-	    }
-	}
+    //if disconnected browser was in room, removes from database
+    for(var fieldName in room_users[user_session[socket.id]]){
+      if (socket.id == fieldName){
+        delete room_users[user_session[socket.id]][socket.id];
+      }
+    }
 
-	//if room empty, deletes room
-  var c=0;
-	for(var fieldName in room_users[user_session[socket.id]]){
-	    c++;
-	}
-	if(c==0){
-		delete room_users[user_session[socket.id]];
-	}
+    //if room empty, deletes room
+    var c=0;
+    for(var fieldName in room_users[user_session[socket.id]]){
+      c++;
+    }
+    if(c==0){
+      delete room_users[user_session[socket.id]];
+    }
 
   });
 
@@ -90,19 +90,19 @@ io.on('connection', function(socket){
   //registers room id and personal id to room_users
   socket.on('register', function(msg){
 
-  	//for disconnect function only!
-  	user_session[socket.id] = msg;
+    //for disconnect function only!
+    user_session[socket.id] = msg;
 
-  	//creates room if no one was previously in
-  	if (!room_users[msg]) {
-  		room_users[msg] = {};
-	}
+    //creates room if no one was previously in
+    if (!room_users[msg]) {
+      room_users[msg] = {};
+    }
 
-	//THIS COUNTS PEOPLE IN ROOM!!!!
-	var c=0;
-		for(var fieldName in room_users[user_session[socket.id]]){
-		    c++;
-		}
+    //THIS COUNTS PEOPLE IN ROOM!!!!
+    var c=0;
+    for(var fieldName in room_users[user_session[socket.id]]){
+      c++;
+    }
 
     //kicking additional connections
     if (c >= 2) {
@@ -110,11 +110,11 @@ io.on('connection', function(socket){
         io.sockets.connected[socket.id].emit('full room');
         console.log("failed connection");
       }
-   }
+    }
     //if space in room, adds to array of guests
-     else {
+    else {
       console.log(socket.id, "connected to", msg);
-  	  room_users[user_session[socket.id]][socket.id] = {};
+      room_users[user_session[socket.id]][socket.id] = {};
 
     }
     console.log(" ");
